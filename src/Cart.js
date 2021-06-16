@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Table } from "reactstrap";
+import { Table, Badge } from "reactstrap";
 
 class Cart extends Component {
     render() {
@@ -17,7 +17,7 @@ class Cart extends Component {
                         {
                             this.props.cart.map(item => (
                                 <tr key={item.id}>
-                                    <td>{item.productName}</td>
+                                    <td>{item.productName}  <Badge className="text-light bg-secondary" >{item.quantity}</Badge></td>
                                     <td>{item.unitPrice}$</td>
                                 </tr>
                             ))

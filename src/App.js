@@ -14,7 +14,6 @@ class App extends Component {
         totalPrice: 0,
     };
 
-
     setName = (category)=>{
         this.setState({currentCategory: category.categoryName});
         this.getProducts(category.id)
@@ -28,16 +27,21 @@ class App extends Component {
         fetch(url)
             .then(response => response.json())
             .then(data => this.setState({products: data}))
-    };
+       };
 
     addToCart = (productData)=>{
         var cartAll = this.state.cart;
         var total = this.state.totalPrice
+        if(cartAll.includes(productData)){
+            productData.quantity ++;
+        }else{
+            productData.quantity = 0;
+            cartAll.push(productData)
+        }
+
         total = total + Number(productData.unitPrice);
-        cartAll.push(productData)
         this.setState({cart: cartAll});
         this.setState({totalPrice: total});
-        console.log(total)
     };
     componentDidMount() { this.getProducts() }
 
@@ -72,6 +76,7 @@ class App extends Component {
                                 cart={this.addToCart}/>
                         </Col>
                     </Row>
+
                 </Container>
             </div>
         );
