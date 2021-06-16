@@ -35,10 +35,10 @@ class App extends Component {
         if(cartAll.includes(productData)){
             productData.quantity ++;
         }else{
-            productData.quantity = 0;
+            productData.quantity = 1;
             cartAll.push(productData)
         }
-
+        productData.unitsInStock --;
         total = total + Number(productData.unitPrice);
         this.setState({cart: cartAll});
         this.setState({totalPrice: total});
