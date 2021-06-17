@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import { Table, Badge } from "reactstrap";
+import { Table, Badge, Button } from "reactstrap";
 
 class Cart extends Component {
     render() {
         return (
             <div className="cart">
                 <h3>CART <i className="fas fa-shopping-cart"/></h3>
-                <Table>
+                <Table border="1">
                     <thead>
                     <tr>
                         <th>Product Name</th>
@@ -16,14 +16,15 @@ class Cart extends Component {
                     <tbody>
                         {
                             this.props.cart.map(item => (
-                                <tr key={item.id}>
+                                <tr key={item.id} >
                                     <td>{item.productName}  <Badge className="text-light bg-secondary" >{item.quantity}</Badge></td>
-                                    <td>{item.unitPrice}$</td>
+                                    <td>{item.unitPrice * item.quantity}$ <br/> <span style={{"fontSize":"11px"}}>({item.quantity} x {item.unitPrice}$)</span></td>
                                 </tr>
                             ))
                         }
-                    <hr/>
-                    <b>TOTAL PRICE : {this.props.totalPrice}$</b>
+                        <p>
+                            <b>TOTAL PRICE : {this.props.totalPrice}$</b>
+                        </p>
                     </tbody>
                 </Table>
             </div>
