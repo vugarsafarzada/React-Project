@@ -33,7 +33,7 @@ class Product extends Component {
                                             outline color={item.unitsInStock === 0 ? "secondary":"dark"}
                                             title="Add to cart"
                                             onClick = {()=> this.props.cart(item)}
-                                            disabled={item.unitsInStock === 0 && item.quantity > item.unitsInStock}>
+                                            disabled={item.unitsInStock === 0}>
                                             <i className="fas fa-shopping-cart"/>
                                         </Button>
                                     </td>
