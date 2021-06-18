@@ -1,6 +1,6 @@
 body{
     background: black;
-    color: aliceblue;
+    color: tan;
 }
 
 .navi{
@@ -42,7 +42,6 @@ body{
     background: #fff;
     color: black;
     padding: 3%;
-    border-radius: 1.5%;
 }
 
 .category{

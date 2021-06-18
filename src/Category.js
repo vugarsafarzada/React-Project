@@ -1,14 +1,14 @@
-import React, {Component} from 'react';
-import {ListGroup, ListGroupItem} from 'reactstrap';
+import React, { Component } from 'react';
+import { ListGroup, ListGroupItem } from 'reactstrap';
 class Category extends Component {
-    state = { categories : [] };
+    state = { categories: [] };
 
-    getCategories = () =>{
+    getCategories = () => {
         fetch("http://localhost:3000/categories")
             .then(response => response.json())
-            .then(data => this.setState({categories: data}))
+            .then(data => this.setState({ categories: data }))
     };
-
+    z
     componentDidMount() { this.getCategories() };
 
     render() {
@@ -17,11 +17,11 @@ class Category extends Component {
                 <h2>{this.props.info.title}</h2>
                 <ListGroup>
                     {
-                        this.state.categories.map(item =>(
+                        this.state.categories.map(item => (
                             <ListGroupItem
                                 className="items2"
                                 key={item.id}
-                                onClick={()=>this.props.changeCategorory(item)}
+                                onClick={() => this.props.changeCategorory(item)}
                                 active={item.categoryName === this.props.currentCategory}>
                                 {item.categoryName.toUpperCase()}
                             </ListGroupItem>

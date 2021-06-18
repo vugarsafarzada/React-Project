@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import { Table, Button} from "reactstrap";
+import React, { Component } from 'react';
+import { Table, Button } from "reactstrap";
 
 class Product extends Component {
 
@@ -10,14 +10,14 @@ class Product extends Component {
                 <h3>{this.props.currentCategory} {this.props.info.title}</h3>
                 <Table>
                     <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Product Name</th>
-                        <th>Quantity Per Unit</th>
-                        <th>Price</th>
-                        <th>Units In Stock</th>
-                        <th>Cart</th>
-                    </tr>
+                        <tr>
+                            <th>#</th>
+                            <th>Product Name</th>
+                            <th>Quantity Per Unit</th>
+                            <th>Price</th>
+                            <th>Units In Stock</th>
+                            <th>Cart</th>
+                        </tr>
                     </thead>
                     <tbody>
                         {
@@ -30,11 +30,11 @@ class Product extends Component {
                                     <td>{item.unitsInStock}</td>
                                     <td>
                                         <Button
-                                            outline color={item.unitsInStock === 0 ? "secondary":"dark"}
+                                            outline color={item.unitsInStock === 0 ? "secondary" : "success"}
                                             title="Add to cart"
-                                            onClick = {()=> this.props.cart(item)}
+                                            onClick={() => this.props.cart(item)}
                                             disabled={item.unitsInStock === 0}>
-                                            <i className="fas fa-shopping-cart"/>
+                                            <i className="fas fa-shopping-cart" />
                                         </Button>
                                     </td>
                                 </tr>

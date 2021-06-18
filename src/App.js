@@ -3,8 +3,12 @@ import Nav from "./Nav";
 import Category from "./Category";
 import Product from "./Product";
 import Cart from "./Cart";
+import CartList from "./CartList";
+import Error from "./Error"
 import {Container, Row, Col} from 'reactstrap';
 import React, {Component} from "react";
+import alertify from "alertifyjs";
+import {Switch, Route} from  'react-router-dom';
 
 class App extends Component {
     state = {
@@ -40,11 +44,23 @@ class App extends Component {
         }
 
         if(productData.unitsInStock !== 0){productData.unitsInStock --;}
-        total = total + Number(productData.unitPrice);
+        total = total + parseFloat(productData.unitPrice);
         this.setState({cart: cartAll});
         this.setState({totalPrice: total});
+        alertify.success(productData.productName + " added", 1)
     };
-    componentDidMount() { this.getProducts() }
+
+    deleteInCart = (productData)=>{
+        var newCart = this.state.cart.filter(item => item.id !== productData.id);
+        var editTotal = this.state.totalPrice - (parseFloat(productData.unitPrice) * productData.quantity);
+        var getStock = this.state.products.filter(item => item.id === productData.id);
+        var unitStock = getStock[0].unitsInStock;
+        getStock[0].unitsInStock = unitStock + productData.quantity
+        this.setState({cart: newCart, totalPrice: editTotal});
+        alertify.error(productData.productName + " removed", 2)
+    };
+
+    componentDidMount() { this.getProducts() };
 
     render() {
         let infoNav = {title:"My Web Page"};
@@ -60,21 +76,32 @@ class App extends Component {
                         </Col>
                     </Row>
                     <Row>
-                        <Col xs = "3">
+                        <Col xs = "4">
                             <Category
                                 info={infoCategory}
                                 changeCategorory={this.setName}
                                 currentCategory={this.state.currentCategory}/>
                             <Cart
                                 cart={this.state.cart}
+                                delete={this.deleteInCart}
                                 totalPrice={this.state.totalPrice}/>
                         </Col>
-                        <Col xs = "9">
-                            <Product
-                                info={infoProduct}
-                                currentCategory={this.state.currentCategory}
-                                data={this.state.products}
-                                cart={this.addToCart}/>
+                        <Col xs = "8">
+                            <Switch>
+                                <Route exact path="/" render={
+                                    props =>(
+                                        <Product
+                                            {...props}
+                                            info={infoProduct}
+                                            currentCategory={this.state.currentCategory}
+                                            data={this.state.products}
+                                            cart={this.addToCart}/>
+                                    )
+                                }/>
+                                <Route exact path="/cart" component={CartList}/>
+                                <Route component={Error}/>
+                            </Switch>
+
                         </Col>
                     </Row>
 
