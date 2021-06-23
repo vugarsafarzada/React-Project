@@ -3,12 +3,15 @@ import Nav from "./Nav";
 import Category from "./Category";
 import Product from "./Product";
 import Cart from "./Cart";
-import CartList from "./CartList";
 import Error from "./Error"
-import {Container, Row, Col} from 'reactstrap';
+import Main from "./Main"
+import WhoWeAre from "./WhoWeAre";
+import Contact from "./Contact";
+import { Container, Row, Col } from 'reactstrap';
 import React, {Component} from "react";
 import alertify from "alertifyjs";
-import {Switch, Route} from  'react-router-dom';
+import {Switch, Route} from 'react-router-dom';
+import Register from "./Register";
 
 class App extends Component {
     state = {
@@ -20,7 +23,7 @@ class App extends Component {
 
     setName = (category)=>{
         this.setState({currentCategory: category.categoryName});
-        this.getProducts(category.id)
+        this.getProducts(category.id);
     };
 
     getProducts = (id)=>{
@@ -45,6 +48,7 @@ class App extends Component {
 
         if(productData.unitsInStock !== 0){productData.unitsInStock --;}
         total = total + parseFloat(productData.unitPrice);
+        total = Number(total.toFixed(2));
         this.setState({cart: cartAll});
         this.setState({totalPrice: total});
         alertify.success(productData.productName + " added", 1)
@@ -53,20 +57,25 @@ class App extends Component {
     deleteInCart = (productData)=>{
         var newCart = this.state.cart.filter(item => item.id !== productData.id);
         var editTotal = this.state.totalPrice - (parseFloat(productData.unitPrice) * productData.quantity);
-        var getStock = this.state.products.filter(item => item.id === productData.id);
-        var unitStock = getStock[0].unitsInStock;
-        getStock[0].unitsInStock = unitStock + productData.quantity
+        editTotal = Number(editTotal.toFixed(2));
+        this.state.products.filter(item =>{
+            if( item.id === productData.id){
+                var unitStock = item.unitsInStock;
+                productData.unitsInStock = unitStock + productData.quantity;
+            }
+            return(unitStock)
+        });
         this.setState({cart: newCart, totalPrice: editTotal});
-        alertify.error(productData.productName + " removed", 2)
+        alertify.error(productData.productName + " removed", 2);
     };
 
     componentDidMount() { this.getProducts() };
-
     render() {
         let infoNav = {title:"My Web Page"};
         let infoCategory = {title: "Category List"};
         let infoProduct = {title:"Product List"};
-
+        let infoCart = {title: "CART"};
+        let infoMain = {title: "Main page"};
         return (
             <div className="App">
                 <Container>
@@ -75,36 +84,47 @@ class App extends Component {
                             <Nav info={infoNav}/>
                         </Col>
                     </Row>
-                    <Row>
-                        <Col xs = "4">
-                            <Category
-                                info={infoCategory}
-                                changeCategorory={this.setName}
-                                currentCategory={this.state.currentCategory}/>
-                            <Cart
-                                cart={this.state.cart}
-                                delete={this.deleteInCart}
-                                totalPrice={this.state.totalPrice}/>
-                        </Col>
-                        <Col xs = "8">
-                            <Switch>
-                                <Route exact path="/" render={
-                                    props =>(
+                    <Switch>
+                        <Route exact path="/" render={
+                            props=>(
+                                <Main info={infoMain}/>
+                            )
+                        }/>
+                        <Route exact path="/product" render={
+                            props =>(
+                                <Row>
+                                    <Col xs = "4">
+                                        <Category
+                                            info={infoCategory}
+                                            changeCategorory={this.setName}
+                                            currentCategory={this.state.currentCategory}/>
+                                    </Col>
+
+                                    <Col xs = "8">
                                         <Product
-                                            {...props}
                                             info={infoProduct}
                                             currentCategory={this.state.currentCategory}
                                             data={this.state.products}
-                                            cart={this.addToCart}/>
-                                    )
-                                }/>
-                                <Route exact path="/cart" component={CartList}/>
-                                <Route component={Error}/>
-                            </Switch>
-
-                        </Col>
-                    </Row>
-
+                                            addCart={this.addToCart}
+                                            cartLength={this.state.cart.length}/>
+                                    </Col>
+                                </Row>
+                            )}/>
+                            <Route exact path="/cart" render={
+                                props => (
+                                    <Cart
+                                        {...props}
+                                        info={infoCart}
+                                        cart={this.state.cart}
+                                        delete={this.deleteInCart}
+                                        totalPrice={this.state.totalPrice}/>
+                                )
+                            }/>
+                            <Route path="/who-we-are" component={WhoWeAre}/>
+                            <Route path="/contact" component={Contact} />
+                            <Route path="/register" component={Register} />
+                            <Route component={Error}/>
+                    </Switch>
                 </Container>
             </div>
         );

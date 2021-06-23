@@ -1,6 +1,6 @@
 body{
     background: black;
-    color: tan;
+    color: white;
 }
 
 .navi{
@@ -8,6 +8,7 @@ body{
     color: #505050;
     padding: 4%;
     margin: 20px auto;
+    border-radius: 10px;
     text-align: center;
 }
 
@@ -41,6 +42,7 @@ body{
 .product{
     background: #fff;
     color: black;
+    border-radius: 10px;
     padding: 3%;
 }
 
@@ -56,5 +58,58 @@ body{
     color: black;
     margin-top: 10px;
     padding: 5%;
-    border-radius: 3%;
+    border-radius: 10px;
+}
+
+.error{
+    background: #fff;
+    color: crimson;
+    padding: 5%;
+    border-radius: 10px;
+}
+
+.main{
+    background: #fff;
+    color: black;
+    margin-top: 10px;
+    padding: 5%;
+    border-radius: 10px;
+}
+
+.wwa{
+    background: #fff;
+    color: black;
+    margin-top: 10px;
+    padding: 5%;
+    border-radius: 10px;
+}
+
+.contact{
+    background: #fff;
+    color: black;
+    margin-top: 10px;
+    padding: 5%;
+    border-radius: 10px;
+}
+.cartButton{
+    position: fixed;
+    left: 93%;
+    top: 90%;
+    text-decoration: none;
+    background: white;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.register{
+    background: #fff;
+    color: #000;
+    padding: 5%;
+    border-radius: 10px;
+}
+
+.registerBox{
+    margin: 0 auto;
+    border-radius: 10px;
+
 }

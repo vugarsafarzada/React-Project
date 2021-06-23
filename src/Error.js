@@ -3,7 +3,7 @@ class Error extends Component {
     render() {
 
         return (
-            <div>
+            <div className="error">
                 <h2>Ooops!</h2>
                 <h4>Page not found.</h4>
             </div>
